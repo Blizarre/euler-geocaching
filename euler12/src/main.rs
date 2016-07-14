@@ -10,31 +10,19 @@ fn test_nb_divisors() {
 }
 
 fn nb_divisors(mut nb: u64) -> u32 {
-    if nb == 1 {
-        return 1;
-    }
     let mut current_divisor:u64 = 2;
-    let mut previous_divisor:u64 = 2;
     let mut nb_current_divisor:u32 = 0;
     let mut nb_divisors:u32 = 1;
 
-    while current_divisor <= nb {
-        if nb % current_divisor == 0 {
-            if previous_divisor == current_divisor {
-                nb_current_divisor += 1;
-            } else {
-                previous_divisor = current_divisor;
-                nb_divisors *= 1 + nb_current_divisor;
-                nb_current_divisor = 1;
-            }
-            nb /= current_divisor;
-            current_divisor = 2;
+    while nb != 1 {
+        while nb % current_divisor == 0 {
+            nb_current_divisor += 1;
+            nb /= current_divisor
         }
-        else {
-            current_divisor += 1;
-        }
+        nb_divisors *= 1 + nb_current_divisor;
+        current_divisor += 1;
+        nb_current_divisor = 0
     }
-    nb_divisors *= 1 + nb_current_divisor;
     return nb_divisors;
 }
 
