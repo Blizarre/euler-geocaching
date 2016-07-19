@@ -1,3 +1,5 @@
+// https://projecteuler.net/problem=12
+
 #[test]
 fn test_nb_divisors() {
     assert_eq!(nb_divisors(1), 1);
@@ -26,32 +28,14 @@ fn nb_divisors(mut nb: u64) -> u32 {
     return nb_divisors;
 }
 
-
 #[test]
-fn test_digit_at() {
-    assert_eq!(digit_at(123, 1), 1u8);
-    assert_eq!(digit_at(123, 2), 2u8);
-    assert_eq!(digit_at(123, 3), 3u8);
-    assert_eq!(digit_at(2, 1), 2u8);
-    assert_eq!(digit_at(23409, 3), 4u8);
-    assert_eq!(digit_at(23545, 5), 5u8);
+fn test_euler12() {
+    assert_eq!(euler12(2), 3);
+    assert_eq!(euler12(4), 6);
+    assert_eq!(euler12(6), 28);
 }
 
-fn digit_at(nb: u64, digit_index: usize) -> u8 {
-    let digit = nb.to_string().chars().nth(digit_index - 1).unwrap();
-    return digit.to_string().parse::<u8>().unwrap();
-}
-
-#[test]
-fn test_f() {
-    assert_eq!(f(2,1), 3);
-    assert_eq!(f(4,1), 6);
-    assert_eq!(f(4,1), 6);
-    assert_eq!(f(6,1), 2);
-    assert_eq!(f(6,2), 8);
-}
-
-fn f(nb_divisors_min:u32, digit_index:usize) -> u8 {
+fn euler12(nb_divisors_min:u32) -> u64 {
     let mut n:u64 = 2;
     let mut sum:u64 = 1;
     let mut nb_div:u32 = 1;
@@ -65,10 +49,9 @@ fn f(nb_divisors_min:u32, digit_index:usize) -> u8 {
             nb_div_max = nb_div;
         }
     }
-    println!("\nn={}, has {} divisor", sum, nb_divisors(sum));
-    return digit_at(sum, digit_index);
+    return sum;
 }
 
 fn main() {
-    println!("f(500, 1)={}", f(500, 1));
+    euler12(1500);
 }
