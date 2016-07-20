@@ -2,13 +2,15 @@
 
 # https://projecteuler.net/problem=1
 
-function euler1() {
+euler1() {
     MAX=$1
     SUM=0
-    for i in $(seq 1 "$MAX"); do
-        if ! (( i % 3 )) || ! (( i % 5 )); then
+    i=0
+    while [ "$i" -lt "$MAX" ]; do
+        if [ $(( i % 3 )) = 0 ] || [ $(( i % 5 )) = 0 ]; then
             SUM=$(( SUM + i ))
         fi
+        i=$(( i + 1 ))
     done
     echo "$SUM"
 }
