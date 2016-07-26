@@ -15,6 +15,11 @@ euler1() {
     echo "$SUM"
 }
 
+echo "Euler project solution: "
+euler1 1000
+
+echo "Geocaching solution: "
+
 echo $(( $(euler1 4720) + $(euler1 240) + $(euler1 77) ))
 
 echo $(( $(euler1 175) + $(euler1 10) ))
