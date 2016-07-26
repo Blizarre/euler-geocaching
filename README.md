@@ -7,7 +7,7 @@ However, a [geocacher](https://en.wikipedia.org/wiki/Geocaching) created some ca
 by solving problems derived from this project. 
 
 To make things more interesting, I'll try to solve them using several programming languages, 
-it will be a good excuse to start learning rust !
+it will be a good excuse to start learning rust!
 
-However, the problem from the geocaching puzzle is often different than the one from euler, 
+However, geocaching puzzle are often different than the one from euler, 
 that's why I often give 2 different solutions. 
