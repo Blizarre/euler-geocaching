@@ -5,24 +5,24 @@ use std::fmt;
 #[derive(Debug, PartialEq)]
 struct Result {
     f: u64,
-    g: u64
+    g: u64,
 }
 
 impl fmt::Display for Result {
-        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-            write!(f, "f: {:4}; g: {:4}", self.f, self.g)
-        }
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "f: {:4}; g: {:4}", self.f, self.g)
+    }
 }
 
 #[test]
 fn test_euler3_geo() {
-    assert_eq!(euler3_geo(100), Result{f:5, g:14});
+    assert_eq!(euler3_geo(100), Result { f: 5, g: 14 });
 }
 
 fn euler3_geo(mut nb: u64) -> Result {
-    let mut current_divisor:u64 = 2;
-    let mut sum_prime_divisor:u64 = 0;
-    let mut max_prime_divisor:u64 = 0;
+    let mut current_divisor: u64 = 2;
+    let mut sum_prime_divisor: u64 = 0;
+    let mut max_prime_divisor: u64 = 0;
 
     while nb != 1 {
         while nb % current_divisor == 0 {
@@ -32,7 +32,10 @@ fn euler3_geo(mut nb: u64) -> Result {
         }
         current_divisor += 1;
     }
-    return Result{f: max_prime_divisor, g: sum_prime_divisor};
+    return Result {
+        f: max_prime_divisor,
+        g: sum_prime_divisor,
+    };
 }
 
 fn main() {

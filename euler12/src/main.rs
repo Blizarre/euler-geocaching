@@ -12,9 +12,9 @@ fn test_nb_divisors() {
 }
 
 fn nb_divisors(mut nb: u64) -> u32 {
-    let mut current_divisor:u64 = 2;
-    let mut nb_current_divisor:u32 = 0;
-    let mut nb_divisors:u32 = 1;
+    let mut current_divisor: u64 = 2;
+    let mut nb_current_divisor: u32 = 0;
+    let mut nb_divisors: u32 = 1;
 
     while nb != 1 {
         while nb % current_divisor == 0 {
@@ -35,11 +35,11 @@ fn test_euler12() {
     assert_eq!(euler12(6), 28);
 }
 
-fn euler12(nb_divisors_min:u32) -> u64 {
-    let mut n:u64 = 2;
-    let mut sum:u64 = 1;
-    let mut nb_div:u32 = 1;
-    let mut nb_div_max:u32 = 1;
+fn euler12(nb_divisors_min: u32) -> u64 {
+    let mut n: u64 = 2;
+    let mut sum: u64 = 1;
+    let mut nb_div: u32 = 1;
+    let mut nb_div_max: u32 = 1;
     while nb_div < nb_divisors_min {
         sum += n;
         n += 1;
