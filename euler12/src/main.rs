@@ -53,5 +53,6 @@ fn euler12(nb_divisors_min: u32) -> u64 {
 }
 
 fn main() {
+    println!("euler and geocaching project");
     euler12(1500);
 }

@@ -39,6 +39,9 @@ fn euler3_geo(mut nb: u64) -> Result {
 }
 
 fn main() {
+    println!("Euler project:");
+    println!("{}", euler3_geo(600851475143).f);
+    println!("geocaching project:");
     println!("{}", euler3_geo(67108864));
     println!("{}", euler3_geo(36));
     println!("{}", euler3_geo(475262344414189));
