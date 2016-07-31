@@ -1,0 +1,10 @@
+h1 {
+    font-family: Sans-Serif;
+    border-bottom: 1px dashed black;
+}
+
+div.message {
+    font-size: 130%;
+    font-family: Monospace;
+    margin-left: 20px;
+}
