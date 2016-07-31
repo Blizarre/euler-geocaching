@@ -20,6 +20,7 @@ dataEuler = Int8Array.from(
         "05886116467109405077541002256983155200055935729725" +
         "71636269561882670428252483600823257530420752963450");
 
+
 dataGeo = Int8Array.from(
         "1355613664861615395867159118565849988222" +
         "2435499155382748149528243525677359158513" +
@@ -47,22 +48,28 @@ dataGeo = Int8Array.from(
         "9589568949115515358487326541185295343755" +
         "1889985528289231857785525477114644633845");
 
+
 function Logger(msg) {
     self = {}
+
     solutionDiv = document.getElementById("solution");
+
     self.header = function(msg) {
         head = document.createElement('h1');
         head.innerText = msg;
         solutionDiv.appendChild(head);
     }
+
     self.message = function(msg) {
         message = document.createElement('div');
         message.className = "message";
         message.innerText = msg;
         solutionDiv.appendChild(message);
     }
+
     return self;
 }
+
 
 function MinMax(min, max) {
     this.min = min;
@@ -73,7 +80,9 @@ MinMax.prototype.toString = function() {
     return "Min: " + this.min + "\nMax: " + this.max;
 }
 
+
 log = Logger();
+
 
 function solve(data, search_span) {
     min = Number.POSITIVE_INFINITY;
@@ -90,9 +99,10 @@ function solve(data, search_span) {
     return new MinMax(min, max);
 }
 
+
 log.header("Test");
-log.message(solve(dataGeo, 4));
 log.message("Expected: min = 16, Max = 5184");
+log.message(solve(dataGeo, 4));
 
 log.header("Euler project");
 log.message(solve(dataEuler, 13));
