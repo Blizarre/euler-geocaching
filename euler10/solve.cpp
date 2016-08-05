@@ -8,53 +8,51 @@
 
 using namespace std;
 
-/**
- * Check if number can be divided by any of the numbers in divisors
- **/
-bool is_prime_iterative(uint64_t number, vector<uint64_t> divisors) {
-    uint64_t max = (uint64_t)ceil(sqrt(number));
-    auto it = divisors.cbegin();
-    while(*it <= max) {
-        if(number % *it == 0) {
-            return false;
-        }
-        it ++;
-    }
-    divisors.push_back(number);
-    return true;
-}
+template<typename T>
+class PrimeGenerator {
+    vector<T> primes;
 
-/**
- * Check if number is prime
- **/
-bool is_prime(uint64_t number) {
-    uint64_t max = ceil(sqrt(number));
-    for(uint64_t i = 2; i <= max; i += 2) {
-        if(number % i  == 0) {
-            return false;
+    public: T next() {
+        T current;
+        if(primes.size() == 0) {
+            current = 2;
+        } else {
+            current = primes.back() + 1;
+            while(! is_prime(current)) {
+                current += 2;
+            }
         }
+        primes.push_back(current);
+        return current;
     }
-    return true;
-}
+
+    protected:
+    bool is_prime(uint64_t number) {
+        uint64_t max = (uint64_t)ceil(sqrt(number));
+        auto it = this->primes.cbegin();
+        while(*it <= max) {
+            if(number % *it == 0) {
+                return false;
+            }
+            it += 2;
+        }
+        return true;
+    }
+};
+
 
 void test() {
-    vector<uint64_t> primes;
-    primes.push_back(2);
-    assert(is_prime(3));
-    assert(is_prime_iterative(3, primes));
-    assert(!is_prime(4));
-    assert(!is_prime_iterative(4, primes));
-    assert(is_prime(5));
-    assert(is_prime_iterative(5, primes));
-    assert(!is_prime(6));
-    assert(!is_prime_iterative(6, primes));
-    assert(is_prime(7));
-    assert(is_prime_iterative(7, primes));
+    PrimeGenerator<uint64_t> p;
+    assert(p.next() == 2);
+    assert(p.next() == 3);
+    assert(p.next() == 5);
+    assert(p.next() == 7);
+    assert(p.next() == 11);
 }
 
 int main(int argc, char* argv[]) {
     test();
-
+    uint64_t sumPrimes = 0;
     if(argc != 2) {
         cout << "Usage: " << argv[0] << " NumberOfPrimes" << endl;
         exit(0);
@@ -62,21 +60,10 @@ int main(int argc, char* argv[]) {
     uint64_t nbElements = stoll(argv[1]);
     cout << "Computing the sum of the " << nbElements << "first primes" << endl;
 
-    vector<uint64_t> primes;
-    primes.reserve(nbElements);
-    primes.push_back(2);
-    uint64_t i = 3;
-    int nbPrimes = 1;
-    uint64_t sumPrimes = 2;
-    for (uint64_t nb_primes = 1; nb_primes < nbElements; nb_primes++) {
-        //while( ! is_prime_iterative(i, primes) ) {
-        while( ! is_prime(i) ) {
-            i += 2;
-        }
-        nbPrimes ++;
-        sumPrimes += (i % 10000000);
-        i += 2;
-        if(nbPrimes % 100000 == 0) cout << nbPrimes << endl;
+    PrimeGenerator<uint64_t> generator;
+    for (uint64_t nb_primes = 0; nb_primes < nbElements; nb_primes++) {
+        uint64_t prime = generator.next();
+        sumPrimes += (prime % 10000000);
     }
-    cout << nbPrimes << " " << sumPrimes << endl;
+    cout << sumPrimes << endl;
 }
