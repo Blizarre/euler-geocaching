@@ -97,8 +97,8 @@ class Main {
         test();
         System.out.println(String.format("Euler project: sum is %d\n%s", 1000, findSum(1000)));
 
-        System.out.println(String.format("Geocaching N: sum is %d\n%s", 59196, findSum(59196)));
-        System.out.println(String.format("Geocaching E: sum is %d\n%s", 223060, findSum(223060)));
+        System.out.println(String.format("Geocaching N: sum is %d\n%s", 223060, findSum(223060)));
+        System.out.println(String.format("Geocaching E: sum is %d\n%s", 59196, findSum(59196)));
     }
 }
 
