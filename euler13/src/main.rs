@@ -198,19 +198,25 @@ fn main() {
     let big_sum = get_file_content(args[1].clone())
         .map(|s| s.lines()
              .map(|l| BigNumber::from_string(l)).collect::<Result<Vec<BigNumber>, &str>>()
+             // FIXME: shouldn't have to x.clone(). impl Add() on reference instead ?
              .map(|v| v.iter().fold(BigNumber::zero(), |acc, x| acc + x.clone()))
              .map_err(|x| String::from(x))
              )
         // unwrap the Result<Result> into Result<>
-        .and_then(|x| x)
-        .unwrap();
+        .and_then(|x| x);
 
-    println!("Sum of all numbers: {}", big_sum);
+    let big_sum_str = match big_sum {
+        Err(e) => {
+            println!("Error while processing input: {}", e);
+            return;
+        },
+        Ok(b) => b.to_string()
+    };
 
-    let sum_len = big_sum.len();
-    assert!(sum_len % 4 == 0);
-    let piece_len = sum_len / 4;
-    let big_sum_str = big_sum.to_string();
+    assert!(big_sum_str.len() % 4 == 0);
+    let piece_len = big_sum_str.len() / 4;
+
+    println!("Sum of all numbers: {}", big_sum_str);
 
     let pieces = vec![
         &big_sum_str[..piece_len],
