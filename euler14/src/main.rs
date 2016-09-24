@@ -24,7 +24,8 @@ mod test_solver {
 
 #[derive(Debug, Clone)]
 struct Solver {
-    nb_hops_cache: Vec<Option<usize>>,
+    // Vector with index = number, value = Result(Number of hops for number)
+    nb_hops_cache: Vec<Option<u64>>,
 }
 
 impl Solver {
@@ -32,16 +33,17 @@ impl Solver {
         Solver { nb_hops_cache: vec![None; max_number] }
     }
 
-    fn is_in_cache(&self, nb: usize) -> bool {
-        nb < self.nb_hops_cache.len() && self.nb_hops_cache[nb].is_some()
+    fn is_in_cache(&self, nb: u64) -> bool {
+        nb < self.nb_hops_cache.len() as u64 && self.nb_hops_cache[nb as usize].is_some()
     }
 
-    fn number_of_hops(&mut self, nb: usize) -> usize {
-        if self.nb_hops_cache[nb].is_some() {
-            return self.nb_hops_cache[nb].unwrap();
+    fn number_of_hops(&mut self, nb: u64) -> u64 {
+        if self.is_in_cache(nb) {
+            return self.nb_hops_cache[nb as usize].unwrap();
         }
 
-        let mut hops = Vec::<usize>::with_capacity(100);
+        // list of intermediate numbers found when computing number_of_hops(n)
+        let mut hops = Vec::<u64>::with_capacity(100);
 
         let mut new_nb = nb;
         while new_nb != 1 && !self.is_in_cache(new_nb) {
@@ -52,18 +54,19 @@ impl Solver {
                 _ => panic!("Math error"),
             };
         }
-        // found the end, fill the nb_hops_cache array
-        let mut hops_index = match self.nb_hops_cache[new_nb] {
+        // found the end, fill the nb_hops_cache array, we know new_nb is either in the cache index or 1
+        let mut hops_index:u64 = match self.nb_hops_cache[new_nb as usize] {
             // Found new_nb in cache: just return the number of hops in cache for new_nb
-            Some(x) => x as usize,
+            Some(x) => x,
             // Didn't find it, new_nb is 1, return the index for 1 (first element)
             None => 1,
         };
         // going backward, fill the cache and increment the hops_index counter each time
         for i in hops.iter().rev() {
             hops_index += 1;
-            if *i < self.nb_hops_cache.len() {
-                self.nb_hops_cache[*i] = Some(hops_index);
+            // cache the items if they fit in the cache
+            if *i < (usize::max_value() as u64) && (*i as usize) < self.nb_hops_cache.len() {
+                self.nb_hops_cache[*i as usize] = Some(hops_index);
             }
         }
         hops_index
@@ -71,7 +74,7 @@ impl Solver {
 }
 
 // we need to get index of each element of the maximum length chain for geocaching
-fn print_geo_result(mut nb: usize) {
+fn print_geo_result(mut nb: u64) {
     let mut index: usize = 1;
     println!("[{}] = {}", index, nb);
     while nb != 1 {
@@ -87,12 +90,12 @@ fn print_geo_result(mut nb: usize) {
 }
 
 fn main() {
-    let nb_max: usize = 10000000;
+    let nb_max: u64 = 11000000;
     let mut max_nb_hops = 0;
     let mut max_index = 0;
-    let mut nb_hops: usize;
+    let mut nb_hops: u64;
 
-    let mut solver = Solver::new(nb_max);
+    let mut solver = Solver::new(nb_max as usize);
     // todo: use max and an iterator
     // nb: index goes from 1 to MAX
     for i in 1..nb_max {
