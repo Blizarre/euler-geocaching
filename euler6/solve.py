@@ -1,3 +1,4 @@
+#!/usr/bin/env python2
 
 def square(x):
     return x*x
@@ -11,6 +12,7 @@ def f(n):
 
 def test():
     assert(f(10) == 2640)
+
 
 test()
 

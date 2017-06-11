@@ -1,3 +1,4 @@
+#!/usr/bin/env python2
 
 def test():
     assert(get_prime_divisors(10) == {2: 1, 5: 1})
@@ -39,6 +40,7 @@ def f(nb):
     for (k, v) in divisors.items():
         product *= k ** v
     return product
+
 
 test()
 print "Project euler"
