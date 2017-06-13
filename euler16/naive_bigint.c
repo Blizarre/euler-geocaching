@@ -3,12 +3,29 @@
 #include <memory.h>
 
 typedef unsigned char uchar;
+
+/*    BIGINT structure definition and Methods */
+// This simple structure only support one operation:
+// x = x * 2
+
 typedef struct {
     uchar* array;
     size_t size;
 } bigint;
 
 
+int bigint_init(bigint* value) {
+    value->array = (uchar*) malloc(1);
+    if( value->array == NULL) {
+        value->size = 0;
+        return 0;
+    }
+    value->array[0] = 1;
+    value->size = 1;
+    return 1;
+}
+
+// Expand the internal structure to accomodate a bigger number
 int bigint_expand(bigint* data) {
     uchar* new_array;
     size_t old_size = data->size;
@@ -23,23 +40,7 @@ int bigint_expand(bigint* data) {
     return 1;
 }
 
-int bigint_init(bigint* value) {
-    value->array = (uchar*) malloc(1);
-    if( value->array == NULL) {
-        value->size = 0;
-        return 0;
-    }
-    value->array[0] = 1;
-    value->size = 1;
-    return 1;
-}
-
-void bigint_free(bigint* value) {
-    free(value->array);
-    value->array = NULL;
-    value->size = 0;
-}
-
+// double the current value
 int bigint_double(bigint* value) {
     int i;
     int ret = 1;
@@ -59,6 +60,12 @@ int bigint_double(bigint* value) {
     return ret;
 }
 
+void bigint_free(bigint* value) {
+    free(value->array);
+    value->array = NULL;
+    value->size = 0;
+}
+
 void bigint_print(bigint* value) {
     int i;
     int only_zeros = 1;
@@ -72,6 +79,8 @@ void bigint_print(bigint* value) {
     printf("\n");
 }
 
+// Print error message, free the structure,
+// and return from the current function on error
 #define BIGINT_CHECK(bigint_struct, cmd) do \
 { \
     if(!cmd) { \
@@ -80,6 +89,8 @@ void bigint_print(bigint* value) {
         return 1; \
     } \
 } while(0)
+
+
 
 int main(int argc, char ** argv) {
     if(argc == 1) {
