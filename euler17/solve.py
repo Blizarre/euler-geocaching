@@ -77,6 +77,9 @@ def number_tostring(number):
     if ret and number > 0:
         ret.append("and")
 
+    # We try to find the first element of numbers that is lower or equal to number (42)
+    # removing this element (40) from number will leave only a value between 0 and 9 (here 2). If
+    # the value is non-null, add a hyphen between the element and the value: forty-two
     for nmb in numbers:
         if number >= nmb:
             to_add = nmb_mapping[nmb]
