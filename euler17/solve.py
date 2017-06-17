@@ -90,6 +90,13 @@ def number_tostring(number):
     return " ".join(ret)
 
 
+def number_length(number):
+    return len(number_tostring(i).replace("-", "").replace(" ", ""))
+
+
 test()
-number_as_string = number_tostring(int(sys.argv[1]))
-print len(number_as_string.replace(' ', '')), number_as_string
+max_number = int(sys.argv[1])
+sum_words = 0
+for i in range(1, max_number + 1):
+    sum_words += number_length(i)
+print "Sum of number's length up to {} is: {}".format(max_number, sum_words)
