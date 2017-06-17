@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 import sys
 
-
-nmb_mapping = {
+# Simple sumbers (0 -> 20) as well as compound numbers
+# where unit is before remainder (sixty-five)
+nb_str_mapping = {
     1: "one",
     2: "two",
     3: "three",
@@ -32,7 +33,9 @@ nmb_mapping = {
     90: "ninety",
 }
 
-prepositional_mapping = {
+# compound number where information is before the value
+# like: fifty _ thousand
+nb_str_prep_mapping = {
     100: "hundred",
     1000: "thousand",
     1000000: "million"
@@ -67,25 +70,27 @@ def number_tostring(number):
         return zero
 
     ret = []
-    numbers = sorted(nmb_mapping.keys(), reverse=True)
-    prep_numbers = sorted(prepositional_mapping.keys(), reverse=True)
-    for nmb in prep_numbers:
-        if number >= nmb:
-            ret.append(number_tostring(number / nmb) + " " + prepositional_mapping[nmb])
-            number = number % nmb
+    simple_numbers = sorted(nb_str_mapping.keys(), reverse=True)
+    prep_numbers = sorted(nb_str_prep_mapping.keys(), reverse=True)
+    
+    # Recursive call to fill the left part of the number (for numbers >= 100)
+    for nb_val in prep_numbers:
+        if number >= nb_val:
+            ret.append(number_tostring(number / nb_val) + " " + nb_str_prep_mapping[nb_val])
+            number = number % nb_val
 
     if ret and number > 0:
         ret.append("and")
 
-    # We try to find the first element of numbers that is lower or equal to number (42)
-    # removing this element (40) from number will leave only a value between 0 and 9 (here 2). If
+    # We try to find the first element of simple_numbers that is lower or equal to number (ex: 42).
+    # removing this element (ex: 40) from number will leave only a value between 0 and 9 (ex: 2). If
     # the value is non-null, add a hyphen between the element and the value: forty-two
-    for nmb in numbers:
-        if number >= nmb:
-            to_add = nmb_mapping[nmb]
-            number -= nmb
+    for nb_val in simple_numbers:
+        if number >= nb_val:
+            to_add = nb_str_mapping[nb_val]
+            number -= nb_val
             if number > 0:
-                ret.append(to_add + "-" + nmb_mapping[number])
+                ret.append(to_add + "-" + nb_str_mapping[number])
             else:
                 ret.append(to_add)
             break
