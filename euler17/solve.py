@@ -15,9 +15,16 @@ nmb_mapping = {
     10: "ten",
     11: "eleven",
     12: "twelve",
+    13: "thirteen",
+    14: "fourteen",
+    15: "fifteen",
+    16: "sixteen",
+    17: "seventeen",
+    18: "eighteen",
+    19: "nineteen",
     20: "twenty",
     30: "thirty",
-    40: "fourty",
+    40: "forty",
     50: "fifty",
     60: "sixty",
     70: "seventy",
@@ -31,8 +38,34 @@ prepositional_mapping = {
     1000000: "million"
 }
 
+zero = "zero"
+
+
+def test():
+    expected = {
+        0: "zero",
+        1: "one",
+        342: "three hundred and forty-two",
+        115: "one hundred and fifteen",
+        48: "forty-eight",
+        117: "one hundred and seventeen",
+        635: "six hundred and thirty-five",
+        9: "nine",
+        1000000: "one million",
+        1154: "one thousand one hundred and fifty-four"
+    }
+
+    for number, string in expected.items():
+        if number_tostring(number) != string:
+            raise AssertionError(
+                "Number: {}, number_tostring: {}\n"
+                "Expected: {}".format(number, number_tostring(number), string))
+
 
 def number_tostring(number):
+    if number == 0:
+        return zero
+
     ret = []
     numbers = sorted(nmb_mapping.keys(), reverse=True)
     prep_numbers = sorted(prepositional_mapping.keys(), reverse=True)
@@ -41,12 +74,22 @@ def number_tostring(number):
             ret.append(number_tostring(number / nmb) + " " + prepositional_mapping[nmb])
             number = number % nmb
 
+    if ret and number > 0:
+        ret.append("and")
+
     for nmb in numbers:
         if number >= nmb:
-            ret.append(nmb_mapping[nmb])
+            to_add = nmb_mapping[nmb]
             number -= nmb
+            if number > 0:
+                ret.append(to_add + "-" + nmb_mapping[number])
+            else:
+                ret.append(to_add)
+            break
 
     return " ".join(ret)
 
 
-print number_tostring(int(sys.argv[1]))
+test()
+number_as_string = number_tostring(int(sys.argv[1]))
+print len(number_as_string.replace(' ', '')), number_as_string
