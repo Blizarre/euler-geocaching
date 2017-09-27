@@ -2,7 +2,8 @@
 -- https://projecteuler.net/problem=18
 
 parsePyramid :: String -> [ [Integer] ]
-parsePyramid text = reverse $ map (\l -> map read $ words l) (lines text)
+parsePyramid text = reverse $ map pyramidRows $ lines text
+    where pyramidRows = map read . words
 
 solveLines :: [Integer] -> [Integer] -> [Integer]
 solveLines (b:c:xc) (a:xa) =
